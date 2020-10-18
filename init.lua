@@ -54,7 +54,7 @@ _sc.register_command_with_subcommand = function(name,def)
 end
 
 _sc.register_command_with_subcommand("subcommand_test",{
-	description = "Test of subcommands",
+	description = "Config Markers",
 	_sc_def = {
 		server = {
 			description = "Command that only player with server privs can run",
