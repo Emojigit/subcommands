@@ -13,7 +13,7 @@ end
 _sc.subcommand_handler = function(sc_def,cm_name)
 	return function(name,param)
 		local subcommand, _param = splitonce(param,"%s+")
-		minetest.log("action",name.."issued command "..cm_name.." with subcommand "..subcommand)
+		minetest.log("action",name.." issued command "..cm_name.." with subcommand "..subcommand)
 		if sc_def[subcommand] then
 			if minetest.check_player_privs(name,sc_def[subcommand].privs or {}) then
 				return sc_def[subcommand].func(name,_param)
@@ -32,7 +32,7 @@ _sc.register_command_with_subcommand = function(name,def)
 	for k,v in pairs(sc_def) do
 		local description = v.description
 		local params = v.params
-		local helptext = "/"..name.." "..k.." "..params.." : "..description
+		local helptext = "/"..name.." "..k.." "..(params or "").." : "..(description or "no destription")
 		sc_help[k] = helptext
 		sc_help_full[#sc_help_full+1] = helptext
 	end
@@ -64,14 +64,21 @@ _sc.register_command_with_subcommand("subcommand_test",{
 			params = "",
 			func = function(name,param)
 				return true, "Your name: "..name.."\nparam: "..param.."\nServer subcommand"
-			end
+			end,
 		},
 		test = {
 			description = "Command that everyone can run",
 			params = "",
 			func = function(name,param)
 				return true, "Your name: "..name.."\nparam: "..param.."\nTest subcommand"
-			end
+			end,
+		},
+		[""] = {
+			destription = "Blank subcommand",
+			params = "",
+			func = function(name,param)
+				return true, "Your name: "..name.."\nparam: "..param.."\nBlank subcommand"
+			end,
 		},
 	},
 })
